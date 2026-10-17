@@ -55,6 +55,12 @@ android {
         compose = true
         buildConfig = true
     }
+    packaging {
+        jniLibs {
+            // Compress native libraries -> ~100MB smaller APK download
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
