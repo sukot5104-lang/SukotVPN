@@ -261,7 +261,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 )
             } else {
                 val existing = _profiles.value.toMutableList()
-                val known = existing.map { "${it.protocol}|${it.serverAddress}|${it.serverPort}|${it.uuid}|${it.password}" }.toSet()
+                val known = existing.map { "${it.protocol}|${it.serverAddress}|${it.serverPort}|${it.uuid}|${it.password}" }.toMutableSet()
                 val fresh = fetched.filter { known.add("${it.protocol}|${it.serverAddress}|${it.serverPort}|${it.uuid}|${it.password}") }
                 existing.addAll(fresh)
                 _profiles.value = existing
@@ -302,8 +302,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             _fetch.value = FetchState(running = true, message = null)
             val fetched = Fetcher.fetchSubscription(url)
             if (fetched.isNotEmpty()) {
-                val existing = _profiles.value.toMutableList()
+                val existing = _profiles.value
                     .filterNot { it.subId == url && it.source == "subscription" }
+                    .toMutableList()
                 val tagged = fetched.map { it.copy(source = "subscription", subId = url) }
                 existing.addAll(tagged)
                 _profiles.value = existing

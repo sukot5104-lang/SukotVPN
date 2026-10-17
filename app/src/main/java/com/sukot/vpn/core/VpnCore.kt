@@ -66,12 +66,13 @@ class VpnCore(private val context: Context) : CoreCallbackHandler {
 
     override fun shutdown(): Long = 0
 
-    override fun onEmitStatus(l: Long, s: String?) {
+    override fun onEmitStatus(l: Long, s: String?): Long {
         if (s != null && s.length > 512) {
             Log.d(TAG, "status(${l}): ${s.take(512)}…")
         } else {
             Log.d(TAG, "status(${l}): $s")
         }
+        return 0
     }
 
     // ------------------------------------------------------------ helpers

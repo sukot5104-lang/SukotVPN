@@ -155,7 +155,7 @@ private fun ConnectButton(connected: Boolean, busy: Boolean, onClick: () -> Unit
         animationSpec = infiniteRepeatable(tween(1800, easing = LinearEasing), RepeatMode.Restart),
         label = "pulse"
     )
-    val rotate by transition.animateFloat(
+    val ringRotation by transition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(tween(9000, easing = LinearEasing), RepeatMode.Restart),
@@ -172,7 +172,7 @@ private fun ConnectButton(connected: Boolean, busy: Boolean, onClick: () -> Unit
         // rotating outer glow ring
         Canvas(modifier = Modifier.size(220.dp)) {
             val stroke = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
-            rotate(degrees = rotate) {
+            rotate(degrees = ringRotation) {
                 drawArc(
                     brush = Brush.sweepGradient(
                         colors = listOf(Violet, Blue, Cyan, Color.Transparent, Violet)
