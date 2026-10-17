@@ -37,6 +37,7 @@
         <service
             android:name=".service.SukotVpnService"
             android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE"
             android:foregroundServiceType="specialUse"
             android:process=":daemon">
             <intent-filter>

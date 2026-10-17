@@ -31,20 +31,11 @@ jobs:
             "https://github.com/2dust/AndroidLibXrayLite/releases/download/v26.10.10/libv2ray.aar"
           ls -la app/libs
 
-      - name: Generate signing keystore
-        run: |
-          keytool -genkeypair -v \
-            -keystore "$GITHUB_WORKSPACE/sukot.jks" \
-            -alias sukot \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass sukot123456 -keypass sukot123456 \
-            -dname "CN=Sukot VPN, OU=Sukot, O=Sukot, L=Tehran, C=IR"
-
       - name: Build release APK
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace \
-            -Psukot.store.file="$GITHUB_WORKSPACE/sukot.jks" \
+            -Psukot.store.file="$GITHUB_WORKSPACE/keystore/sukot.jks" \
             -Psukot.store.password=sukot123456 \
             -Psukot.key.alias=sukot \
             -Psukot.key.password=sukot123456
@@ -62,12 +53,16 @@ jobs:
           tag_name: build-${{ github.run_number }}
           name: Sukot VPN — Build ${{ github.run_number }}
           body: |
-            **Sukot VPN** — automatic build from the latest source.
+            **Sukot VPN v1.0.1** — automatic build from the latest source.
+
+            ## What's new
+            - Fixed: VPN service now declares `BIND_VPN_SERVICE` permission → connection works
+            - Fixed: stable signing key → future updates install without uninstalling
 
             ## Download
             Install the APK below (universal: arm64 + arm32 + x86).
+            ⚠️ Uninstall the old version first if you had Build 5 installed.
 
-            ## Changes
             Commit: ${{ github.sha }}
           files: app/build/outputs/apk/release/*.apk
         env:

@@ -9,5 +9,3 @@ captures/
 .cxx
 app/libs/
 *.aar
-*.jks
-*.keystore
