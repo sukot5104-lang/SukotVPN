@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home -->
+    <string name="status_disconnected">قطع است</string>
+    <string name="status_connecting">در حال اتصال…</string>
+    <string name="status_connected">متصل است</string>
+    <string name="status_disconnecting">در حال قطع…</string>
+    <string name="status_error">اتصال ناموفق بود</string>
+    <string name="btn_connect">اتصال</string>
+    <string name="btn_disconnect">قطع اتصال</string>
+    <string name="tap_to_connect">برای اتصال روی دکمه بزنید</string>
+    <string name="selected_server">سرور انتخاب‌شده</string>
+    <string name="no_server_selected">هنوز سروری انتخاب نشده</string>
+    <string name="select_server_hint">از تب «سرورها» یکی را انتخاب کنید</string>
+    <string name="traffic_download">دانلود</string>
+    <string name="traffic_upload">آپلود</string>
+    <string name="traffic_duration">مدت اتصال</string>
+
+    <!-- Servers -->
+    <string name="tab_servers">سرورها</string>
+    <string name="tab_home">خانه</string>
+    <string name="tab_settings">تنظیمات</string>
+    <string name="ping_all">پینگ همه</string>
+    <string name="fastest_server">سریع‌ترین</string>
+    <string name="ping_testing">در حال تست…</string>
+    <string name="no_profiles">هنوز سروری وجود ندارد</string>
+    <string name="no_profiles_hint">کانفیگ اضافه کنید یا لیست رایگان را بگیرید</string>
+    <string name="add_profile">افزودن کانفیگ</string>
+    <string name="delete_profile">حذف</string>
+    <string name="share_qr">اشتراک QR</string>
+    <string name="ping_one">تست این سرور</string>
+    <string name="ping_unreachable">—</string>
+    <string name="ping_timeout">ناپیدا</string>
+    <string name="connected_fastest">به سریع‌ترین سرور وصل شدید: %1$s</string>
+
+    <!-- Add sheet -->
+    <string name="add_title">افزودن کانفیگ</string>
+    <string name="paste_hint">لینک کانفیگ را اینجا بچسبانید (vmess:// vless:// trojan:// ss://)</string>
+    <string name="import_clipboard">افزودن</string>
+    <string name="scan_qr">اسکن کد QR</string>
+    <string name="fetch_free">دریافت کانفیگ‌های رایگان</string>
+    <string name="fetching_configs">در حال دریافت کانفیگ‌ها…</string>
+    <string name="fetched_count">%1$d کانفیگ جدید اضافه شد</string>
+    <string name="fetch_failed">دریافت کانفیگ‌ها ناموفق بود. اتصال اینترنت را بررسی کنید.</string>
+    <string name="subscription_url">لینک اشتراک</string>
+    <string name="add_subscription">افزودن اشتراک</string>
+    <string name="invalid_link">این لینک یک کانفیگ معتبر نیست</string>
+    <string name="added_profile">کانفیگ اضافه شد: %1$s</string>
+    <string name="camera_permission_needed">برای اسکن QR اجازه دسترسی به دوربین لازم است</string>
+    <string name="imported_count">%1$d کانفیگ وارد شد</string>
+
+    <!-- Settings -->
+    <string name="general_settings">تنظیمات عمومی</string>
+    <string name="bypass_iran">دور زدن سایت‌های ایرانی (مستقیم)</string>
+    <string name="bypass_iran_desc">سایت‌های ایرانی بدون عبور از تونل باز می‌شوند</string>
+    <string name="block_quic">مسدود کردن QUIC (UDP 443)</string>
+    <string name="block_quic_desc">ترافیک یوتیوب را روی TCP نگه می‌دارد تا تونل پایدارتر شود</string>
+    <string name="block_ads">مسدود کردن تبلیغات</string>
+    <string name="block_ads_desc">دامنه‌های تبلیغاتی شناخته‌شده را می‌بندد</string>
+    <string name="block_torrent">مسدود کردن تورنت</string>
+    <string name="block_torrent_desc">جلوگیری از عبور ترافیک تورنت از تونل</string>
+    <string name="mtu_label">MTU تونل</string>
+    <string name="subscription_section">اشتراک‌ها</string>
+    <string name="subscriptions_empty">لینک اشتراکی ذخیره نشده</string>
+    <string name="update_subscriptions">به‌روزرسانی همه اشتراک‌ها</string>
+    <string name="subscription_updated">اشتراک به‌روز شد: %1$d کانفیگ</string>
+    <string name="remove_subscription">حذف</string>
+    <string name="geo_section">فایل‌های Geo</string>
+    <string name="download_geo">دانلود / به‌روزرسانی فایل‌های Geo (قوانین ایران)</string>
+    <string name="geo_done">فایل‌های Geo با موفقیت به‌روز شد</string>
+    <string name="geo_failed">دانلود فایل‌های Geo ناموفق بود</string>
+    <string name="about_section">درباره برنامه</string>
+    <string name="app_version">نسخه</string>
+    <string name="about_body">سوکوت وی‌پی‌ان یک کلاینت رایگان و متن‌باز با موتور Xray است.\nاز پروتکل‌های VMess و VLESS و Trojan و Shadowsocks پشتیبانی می‌کند.\nلطفاً مسئولانه استفاده کنید و قوانین محلی را رعایت نمایید.</string>
+    <string name="save">ذخیره</string>
+    <string name="saved">ذخیره شد</string>
+
+    <!-- Misc -->
+    <string name="stop">توقف</string>
+    <string name="notif_connecting">در حال اتصال به تونل…</string>
+    <string name="notif_connected">محافظت فعال است — متصل هستید</string>
+    <string name="qr_dialog_title">اشتراک‌گذاری کانفیگ</string>
+    <string name="qr_dialog_hint">دستگاه دیگر این کد را اسکن کند</string>
+    <string name="close">بستن</string>
+    <string name="error_generic">خطایی رخ داد: %1$s</string>
+    <string name="vpn_permission_denied">اجازه اتصال VPN داده نشد</string>
+</resources>

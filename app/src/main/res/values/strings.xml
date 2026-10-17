@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Sukot VPN</string>
+
+    <!-- Home -->
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnecting">Disconnecting…</string>
+    <string name="status_error">Connection failed</string>
+    <string name="btn_connect">Connect</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="tap_to_connect">Tap the button to connect</string>
+    <string name="selected_server">Selected server</string>
+    <string name="no_server_selected">No server selected yet</string>
+    <string name="select_server_hint">Pick one from the Servers tab</string>
+    <string name="traffic_download">Download</string>
+    <string name="traffic_upload">Upload</string>
+    <string name="traffic_duration">Duration</string>
+
+    <!-- Servers -->
+    <string name="tab_servers">Servers</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_settings">Settings</string>
+    <string name="ping_all">Ping all</string>
+    <string name="fastest_server">Fastest</string>
+    <string name="ping_testing">Testing…</string>
+    <string name="no_profiles">No servers yet</string>
+    <string name="no_profiles_hint">Add configs or fetch the free list</string>
+    <string name="add_profile">Add profile</string>
+    <string name="delete_profile">Delete</string>
+    <string name="share_qr">Share QR</string>
+    <string name="ping_one">Test this server</string>
+    <string name="ping_unreachable">—</string>
+    <string name="ping_timeout">Timeout</string>
+    <string name="connected_fastest">Connected to the fastest server: %1$s</string>
+
+    <!-- Add sheet -->
+    <string name="add_title">Add configuration</string>
+    <string name="paste_hint">Paste one or more config links here (vmess:// vless:// trojan:// ss://)</string>
+    <string name="import_clipboard">Import</string>
+    <string name="scan_qr">Scan QR code</string>
+    <string name="fetch_free">Fetch free configs</string>
+    <string name="fetching_configs">Fetching configs…</string>
+    <string name="fetched_count">%1$d new configs added</string>
+    <string name="fetch_failed">Could not fetch configs. Check your connection.</string>
+    <string name="subscription_url">Subscription URL</string>
+    <string name="add_subscription">Add subscription</string>
+    <string name="invalid_link">This link is not a valid config</string>
+    <string name="added_profile">Config added: %1$s</string>
+    <string name="camera_permission_needed">Camera permission is required to scan QR codes</string>
+    <string name="imported_count">%1$d configs imported</string>
+
+    <!-- Settings -->
+    <string name="general_settings">General</string>
+    <string name="bypass_iran">Bypass Iranian websites (direct)</string>
+    <string name="bypass_iran_desc">Iranian domains and IPs skip the VPN tunnel</string>
+    <string name="block_quic">Block QUIC (UDP 443)</string>
+    <string name="block_quic_desc">Forces YouTube traffic onto TCP for a more stable tunnel</string>
+    <string name="block_ads">Block ads</string>
+    <string name="block_ads_desc">Blocks known ad domains via geosite rules</string>
+    <string name="block_torrent">Block BitTorrent</string>
+    <string name="block_torrent_desc">Prevents torrent traffic from going through the tunnel</string>
+    <string name="mtu_label">TUN MTU</string>
+    <string name="subscription_section">Subscriptions</string>
+    <string name="subscriptions_empty">No subscription URLs saved</string>
+    <string name="update_subscriptions">Update all subscriptions</string>
+    <string name="subscription_updated">Subscription updated: %1$d configs</string>
+    <string name="remove_subscription">Remove</string>
+    <string name="geo_section">Geo rule files</string>
+    <string name="download_geo">Download / update Geo files (Iran rules)</string>
+    <string name="geo_done">Geo files updated successfully</string>
+    <string name="geo_failed">Geo files download failed</string>
+    <string name="about_section">About</string>
+    <string name="app_version">Version</string>
+    <string name="about_body">Sukot VPN is a free, open-source client powered by the Xray core.\nIt supports VMess, VLESS, Trojan and Shadowsocks protocols.\nUse responsibly and respect local laws.</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+
+    <!-- Misc -->
+    <string name="stop">Stop</string>
+    <string name="notif_connecting">Connecting to the tunnel…</string>
+    <string name="notif_connected">Protected — you are connected</string>
+    <string name="qr_dialog_title">Share configuration</string>
+    <string name="qr_dialog_hint">Let the other device scan this code</string>
+    <string name="close">Close</string>
+    <string name="error_generic">Something went wrong: %1$s</string>
+    <string name="vpn_permission_denied">VPN permission was denied</string>
+</resources>
