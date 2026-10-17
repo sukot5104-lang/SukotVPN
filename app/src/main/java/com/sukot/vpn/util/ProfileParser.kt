@@ -38,6 +38,9 @@ object ProfileParser {
         val seen = HashSet<String>()
         for (u in uris) {
             val p = parseOne(u) ?: continue
+            // Drop links the embedded Xray core can never build (plain VLESS/Trojan,
+            // legacy SS ciphers) — otherwise every connect attempt errors out.
+            if (unusableOnModernCore(p)) continue
             val key = "${p.protocol}|${p.serverAddress}|${p.serverPort}|${p.uuid}|${p.password}"
             if (seen.add(key)) out.add(p)
         }
@@ -210,6 +213,56 @@ object ProfileParser {
                 password = mp.substring(ci + 1),
                 source = "manual"
             )
+        }
+    }
+
+    // ---------------------------------------------------------------- helpers
+
+    /** Ciphers the embedded Xray core still supports for Shadowsocks. */
+    private val SS_METHODS = setOf(
+        "aes-128-gcm", "aes-256-gcm",
+        "chacha20-poly1305", "chacha20-ietf-poly1305",
+        "xchacha20-poly1305", "xchacha20-ietf-poly1305",
+        "none", "plain",
+        "2022-blake3-aes-128-gcm", "2022-blake3-aes-256-gcm",
+        "2022-blake3-chacha20-poly1305"
+    )
+
+    private fun isPlainSecurity(security: String): Boolean =
+        security.isBlank() || security.trim().equals("none", ignoreCase = true)
+
+    /** Cheap IP-literal check — never performs DNS lookups. */
+    fun isIpAddress(host: String): Boolean {
+        val h = host.trim().trim('[', ']')
+        if (h.isEmpty()) return false
+        val v4 = h.split('.')
+        if (v4.size == 4 && v4.all { (it.toIntOrNull()?.let { v -> v in 0..255 }) == true }) return true
+        if (h.contains(':')) {
+            return h.all { it.isDigit() || it in "abcdefABCDEF:." }
+        }
+        return false
+    }
+
+    /**
+     * True when the profile can NEVER build a valid outbound config on the
+     * embedded Xray core (v26.10.10, Xray-core ~26.x).
+     *
+     * Late-2026 Xray cores refuse plain VLESS / plain Trojan to ANY public
+     * address at config-build time:
+     *   "vless without TLS or other encryption is prohibited unless the server
+     *    address is a private IP or domain"
+     * Such share links are extremely common in free config lists, so they are
+     * dropped at parse time instead of failing at connect time.
+     */
+    fun unusableOnModernCore(p: VpnProfile): Boolean {
+        return when (p.protocol.uppercase()) {
+            "VLESS" -> {
+                val encrypted = p.encryption.isNotBlank() && !p.encryption.equals("none", ignoreCase = true)
+                !encrypted && isPlainSecurity(p.security)
+            }
+            "TROJAN" -> isPlainSecurity(p.security)
+            "SHADOWSOCKS" -> p.method.trim().lowercase() !in SS_METHODS
+            else -> false
         }
     }
 

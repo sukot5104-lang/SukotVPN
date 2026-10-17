@@ -45,7 +45,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val store = Store(application)
 
-    private val _profiles = MutableStateFlow<List<VpnProfile>>(store.loadProfiles())
+    /** Loads saved profiles and drops ones the modern core refuses to build. */
+    private fun loadSanitizedProfiles(): List<VpnProfile> {
+        val loaded = store.loadProfiles()
+        val clean = loaded.filterNot { ProfileParser.unusableOnModernCore(it) }
+        if (clean.size != loaded.size) store.saveProfiles(clean)
+        return clean
+    }
+
+    private val _profiles = MutableStateFlow<List<VpnProfile>>(loadSanitizedProfiles())
     val profiles: StateFlow<List<VpnProfile>> = _profiles.asStateFlow()
 
     private val _selectedId = MutableStateFlow(store.loadSelectedId())
@@ -167,7 +175,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         val currentSettings = _settings.value
         GeoAssets.ensure(context) // bundled geo rules — no network needed
         val hasGeo = Fetcher.hasGeoFiles(context)
-        val config = XrayConfigBuilder.build(profile, currentSettings, hasGeo)
+        val config = try {
+            XrayConfigBuilder.build(profile, currentSettings, hasGeo)
+        } catch (e: Exception) {
+            _vpnState.value = VpnState.DISCONNECTED
+            _toast.value = "${e.message ?: e.javaClass.simpleName}"
+            return
+        }
         val intent = Intent(context, SukotVpnService::class.java)
             .setAction(SukotVpnService.ACTION_CONNECT)
             .putExtra(SukotVpnService.EXTRA_CONFIG, config)

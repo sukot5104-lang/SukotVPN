@@ -189,7 +189,10 @@ object XrayConfigBuilder {
 
     private fun buildStream(p: VpnProfile): JSONObject {
         val s = JSONObject().put("network", p.network.ifBlank { "tcp" })
-        when (p.security.lowercase()) {
+        // Trojan is a TLS protocol by definition — default to tls when the link
+        // omitted the security parameter (core rejects plain trojan).
+        val protoDefault = if (p.protocol.equals("TROJAN", ignoreCase = true)) "tls" else "none"
+        when (p.security.lowercase().ifBlank { protoDefault }) {
             "tls" -> {
                 s.put("security", "tls")
                 val tls = JSONObject()
