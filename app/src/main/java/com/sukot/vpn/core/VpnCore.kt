@@ -3,6 +3,7 @@ package com.sukot.vpn.core
 import android.content.Context
 import android.provider.Settings
 import android.util.Log
+import com.sukot.vpn.data.GeoAssets
 import go.Seq
 import libv2ray.CoreCallbackHandler
 import libv2ray.CoreController
@@ -26,6 +27,7 @@ class VpnCore(private val context: Context) : CoreCallbackHandler {
 
     fun init() {
         Seq.setContext(context)
+        GeoAssets.ensure(context)
         Libv2ray.initCoreEnv(context.filesDir.absolutePath, deviceId())
     }
 

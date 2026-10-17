@@ -14,8 +14,8 @@ android {
         applicationId = "com.sukot.vpn"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
     }
 
     val ciStoreFile = (project.findProperty("sukot.store.file") as String?) ?: System.getenv("SUKOT_STORE_FILE")

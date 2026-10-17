@@ -23,10 +23,17 @@ object Fetcher {
         "https://raw.githubusercontent.com/ALIILAPRO/v2rayNG-Config/main/config.txt"
     )
 
-    private const val GEO_SITE_URL =
+    // jsDelivr first — works in Iran without an active VPN, unlike github.com
+    private val GEO_SITE_URLS = listOf(
+        "https://cdn.jsdelivr.net/gh/Chocolate4U/Iran-v2ray-rules@release/geosite.dat",
+        "https://raw.githubusercontent.com/Chocolate4U/Iran-v2ray-rules/release/geosite.dat",
         "https://github.com/Chocolate4U/Iran-v2ray-rules/releases/latest/download/geosite.dat"
-    private const val GEO_IP_URL =
+    )
+    private val GEO_IP_URLS = listOf(
+        "https://cdn.jsdelivr.net/gh/Chocolate4U/Iran-v2ray-rules@release/geoip.dat",
+        "https://raw.githubusercontent.com/Chocolate4U/Iran-v2ray-rules/release/geoip.dat",
         "https://github.com/Chocolate4U/Iran-v2ray-rules/releases/latest/download/geoip.dat"
+    )
 
     /** Try every known free-config source until enough profiles are collected. */
     suspend fun fetchFreeConfigs(): List<VpnProfile> = withContext(Dispatchers.IO) {
@@ -62,23 +69,23 @@ object Fetcher {
         if (body.isBlank()) emptyList() else ProfileParser.parseMulti(body)
     }
 
-    /** Download geo rule files (Iran-aware) into filesDir. Returns a human message. */
+    /** Refresh geo rule files (Iran-aware). Bundled files guarantee a baseline. */
     suspend fun fetchGeoFiles(context: Context): String = withContext(Dispatchers.IO) {
         try {
+            GeoAssets.ensure(context) // baseline from APK bundle
             val site = File(context.filesDir, "geosite.dat")
             val ip = File(context.filesDir, "geoip.dat")
-            downloadTo(GEO_SITE_URL, site)
-            downloadTo(GEO_IP_URL, ip)
-            if (site.length() > 100_000 && ip.length() > 100_000) "ok"
+            downloadToAny(GEO_SITE_URLS, site)
+            downloadToAny(GEO_IP_URLS, ip)
+            if (site.length() >= GeoAssets.MIN_GEOSITE && ip.length() >= GeoAssets.MIN_GEOIP) "ok"
             else "downloaded files look truncated"
         } catch (e: Exception) {
-            "error: ${e.message ?: e.javaClass.simpleName}"
+            if (GeoAssets.isComplete(context)) "ok (bundled rules in use)"
+            else "error: ${e.message ?: e.javaClass.simpleName}"
         }
     }
 
-    fun hasGeoFiles(context: Context): Boolean =
-        File(context.filesDir, "geosite.dat").let { it.exists() && it.length() > 100_000 } &&
-            File(context.filesDir, "geoip.dat").let { it.exists() && it.length() > 100_000 }
+    fun hasGeoFiles(context: Context): Boolean = GeoAssets.isComplete(context)
 
     // ------------------------------------------------------------ internals
 
@@ -97,6 +104,20 @@ object Fetcher {
         } finally {
             conn.disconnect()
         }
+    }
+
+    /** Try each mirror in order until one succeeds. */
+    private fun downloadToAny(urls: List<String>, target: File) {
+        var last: Exception? = null
+        for (url in urls) {
+            try {
+                downloadTo(url, target)
+                return
+            } catch (e: Exception) {
+                last = e
+            }
+        }
+        throw last ?: IllegalStateException("all mirrors failed")
     }
 
     private fun downloadTo(url: String, target: File) {

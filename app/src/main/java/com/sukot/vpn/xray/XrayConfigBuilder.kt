@@ -54,9 +54,20 @@ object XrayConfigBuilder {
                     .put("protocol", JSONArray(listOf("bittorrent")))
             )
         }
+        // Private/LAN ranges as plain CIDRs — identical to geoip:private but
+        // never depends on geo files being present (fixes "failed to open
+        // geoip.dat" crash on first connect).
         rules.put(
             JSONObject().put("type", "field").put("outboundTag", "direct")
-                .put("ip", JSONArray(listOf("geoip:private")))
+                .put(
+                    "ip", JSONArray(
+                        listOf(
+                            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16",
+                            "127.0.0.0/8", "169.254.0.0/16", "100.64.0.0/10",
+                            "224.0.0.0/3", "fe80::/10", "fc00::/7", "::1/128"
+                        )
+                    )
+                )
         )
         if (settings.blockQuic) {
             rules.put(

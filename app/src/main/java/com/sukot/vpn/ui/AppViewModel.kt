@@ -12,6 +12,7 @@ import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.sukot.vpn.core.VpnState
 import com.sukot.vpn.data.Fetcher
+import com.sukot.vpn.data.GeoAssets
 import com.sukot.vpn.data.SpeedTester
 import com.sukot.vpn.data.Store
 import com.sukot.vpn.data.SukotSettings
@@ -164,6 +165,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun launchConnect(context: Context) {
         val profile = selectedProfile() ?: return
         val currentSettings = _settings.value
+        GeoAssets.ensure(context) // bundled geo rules — no network needed
         val hasGeo = Fetcher.hasGeoFiles(context)
         val config = XrayConfigBuilder.build(profile, currentSettings, hasGeo)
         val intent = Intent(context, SukotVpnService::class.java)
