@@ -1,6 +1,7 @@
 package com.sukot.vpn.data
 
 import android.content.Context
+import com.sukot.vpn.model.VpnProfile
 import com.sukot.vpn.util.ProfileParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
